@@ -1,7 +1,13 @@
-f [] = []
-f [x] = [x]
-f (x:xs) = 
-  let 
-    y = x ++ f [a | a <-xs, a == x]
-    z = x ++ f [a | a <-xs, a /= x]
-  in (y, z)
+f [] [] acc = acc
+f xs [] acc = acc ++ [xs]
+f [] (x:xs) acc = f [x] xs acc
+
+f current (x:xs) acc =
+  if (head current == x) then
+    f (x:current) xs acc
+  else
+    acc ++ (f [x] xs [current])
+
+
+pack [] = []
+pack (x:xs) = f [] (x:xs) []
